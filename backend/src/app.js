@@ -8,7 +8,7 @@ const requestId = require('./middleware/requestId');
 const authRoutes = require('./routes/auth');
 const walletRoutes = require('./routes/wallet');
 const paymentRoutes = require('./routes/payments');
-const kycRoutes = require('./routes/ kyc');
+const kycRoutes = require('./routes/kyc');
 const adminRoutes = require('./routes/admin');
 const webhookRoutes = require('./routes/webhooks');
 

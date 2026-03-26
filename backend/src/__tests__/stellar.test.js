@@ -407,6 +407,56 @@ describe('sendPayment', () => {
       })
     ).rejects.toMatchObject({ status: 500 });
   });
+
+  test('throws 400 with RECIPIENT_NOT_FOUND code when XLM recipient account does not exist', async () => {
+    mockServer.loadAccount.mockRejectedValue({ response: { status: 404 } });
+
+    await expect(
+      stellar.sendPayment({
+        senderPublicKey: senderKeypair.publicKey(),
+        encryptedSecretKey: encryptedSecret,
+        recipientPublicKey: recipientKeypair.publicKey(),
+        amount: '10',
+        asset: 'XLM'
+      })
+    ).rejects.toMatchObject({
+      status: 400,
+      code: 'RECIPIENT_NOT_FOUND',
+      message: expect.stringContaining('does not exist on the Stellar network')
+    });
+  });
+
+  test('XLM recipient error message instructs wallet activation', async () => {
+    mockServer.loadAccount.mockRejectedValue({ response: { status: 404 } });
+
+    await expect(
+      stellar.sendPayment({
+        senderPublicKey: senderKeypair.publicKey(),
+        encryptedSecretKey: encryptedSecret,
+        recipientPublicKey: recipientKeypair.publicKey(),
+        amount: '10',
+        asset: 'XLM'
+      })
+    ).rejects.toMatchObject({
+      message: expect.stringContaining('activate their wallet first')
+    });
+  });
+
+  test('re-throws non-404 Horizon errors during XLM recipient check', async () => {
+    const serverError = new Error('Horizon 500');
+    serverError.response = { status: 500 };
+    mockServer.loadAccount.mockRejectedValue(serverError);
+
+    await expect(
+      stellar.sendPayment({
+        senderPublicKey: senderKeypair.publicKey(),
+        encryptedSecretKey: encryptedSecret,
+        recipientPublicKey: recipientKeypair.publicKey(),
+        amount: '10',
+        asset: 'XLM'
+      })
+    ).rejects.toThrow('Horizon 500');
+  });
 });
 
 // ============================================================

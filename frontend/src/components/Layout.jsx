@@ -3,6 +3,7 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { LayoutDashboard, Send, Download, Clock, User, LogOut, Webhook, Sun, Moon } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
+import { NotificationCenter } from './notifications/NotificationCenter';
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -39,6 +40,7 @@ export default function Layout() {
           <button onClick={toggleTheme} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white transition-colors" title="Toggle theme">
             {theme === 'dark' ? <Sun size={18} /> : <Moon size={18} />}
           </button>
+          <NotificationCenter />
           <button onClick={handleLogout} className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-white transition-colors" title="Logout">
             <LogOut size={18} />
           </button>
