@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import { Toaster } from "react-hot-toast";
 import { AuthProvider, useAuth } from "./context/AuthContext";
 import { ThemeProvider } from "./context/ThemeContext";
 
@@ -14,8 +13,10 @@ import TransactionHistory from "./pages/TransactionHistory";
 import Profile from "./pages/Profile";
 import KYCVerification from "./pages/KYCVerification";
 import Webhooks from "./pages/Webhooks";
+import NotificationHistory from "./pages/NotificationHistory";
 import Layout from "./components/Layout";
 import ErrorBoundary from "./components/ErrorBoundary";
+import { ToastContainer } from "./components/notifications/Toast";
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -36,111 +37,29 @@ function PublicRoute({ children }) {
 
 export default function App() {
   return (
-    <AuthProvider>
-      <ThemeProvider>
-        <BrowserRouter>
-        <Toaster
-          position="top-center"
-          toastOptions={{
-            style: { background: "#1e293b", color: "#fff", border: "1px solid #334155" },
-          }}
-        />
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <PublicRoute>
-                <Welcome />
-              </PublicRoute>
-            }
     <ErrorBoundary>
       <AuthProvider>
-        <BrowserRouter>
-          <Toaster
-            position="top-center"
-            toastOptions={{
-              style: { background: "#1e293b", color: "#fff", border: "1px solid #334155" },
-            }}
-          />
-          <Routes>
-            <Route
-              path="/"
-              element={
-                <PublicRoute>
-                  <Welcome />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/login"
-              element={
-                <PublicRoute>
-                  <Login />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/register"
-              element={
-                <PublicRoute>
-                  <Register />
-                </PublicRoute>
-              }
-            />
-            <Route
-              path="/"
-              element={
-                <PrivateRoute>
-                  <Layout />
-                </PrivateRoute>
-              }
-            >
-              <Route path="dashboard" element={<Dashboard />} />
-              <Route path="send" element={<SendMoney />} />
-              <Route path="receive" element={<ReceiveMoney />} />
-              <Route path="history" element={<TransactionHistory />} />
-              <Route path="profile" element={<Profile />} />
-              <Route path="kyc" element={<KYCVerification />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
+        <ThemeProvider>
+          <BrowserRouter>
+            <ToastContainer />
+            <Routes>
+              <Route path="/" element={<PublicRoute><Welcome /></PublicRoute>} />
+              <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+              <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+              <Route path="/" element={<PrivateRoute><Layout /></PrivateRoute>}>
+                <Route path="dashboard" element={<Dashboard />} />
+                <Route path="send" element={<SendMoney />} />
+                <Route path="receive" element={<ReceiveMoney />} />
+                <Route path="history" element={<TransactionHistory />} />
+                <Route path="profile" element={<Profile />} />
+                <Route path="kyc" element={<KYCVerification />} />
+                <Route path="webhooks" element={<Webhooks />} />
+                <Route path="notifications" element={<NotificationHistory />} />
+              </Route>
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
       </AuthProvider>
     </ErrorBoundary>
-          <Route
-            path="/login"
-            element={
-              <PublicRoute>
-                <Login />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <PublicRoute>
-                <Register />
-              </PublicRoute>
-            }
-          />
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
-                <Layout />
-              </PrivateRoute>
-            }
-          >
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="send" element={<SendMoney />} />
-            <Route path="receive" element={<ReceiveMoney />} />
-            <Route path="history" element={<TransactionHistory />} />
-            <Route path="profile" element={<Profile />} />
-            <Route path="kyc" element={<KYCVerification />} />
-            <Route path="webhooks" element={<Webhooks />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </ThemeProvider>
-  </AuthProvider>
   );
 }

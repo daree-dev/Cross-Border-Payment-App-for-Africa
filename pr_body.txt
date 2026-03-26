@@ -1,0 +1,9 @@
+Previously, sending XLM to a valid-format but unfunded Stellar address would fail with a cryptic Horizon error after the transaction was already built and broadcast.
+
+This adds a pre-flight checkRecipientExists() call in sendPayment() that runs server.loadAccount() on the recipient before building the transaction. If Horizon returns a 404, it throws a typed error (status: 400, code: RECIPIENT_NOT_FOUND) with the message:
+
+"Recipient account does not exist on the Stellar network. They need to activate their wallet first."
+
+The existing controller error handler surfaces this directly as a 400 response - no controller changes needed. Non-XLM assets were already covered by the checkTrustline path.
+
+Files changed: backend/src/services/stellar.js
