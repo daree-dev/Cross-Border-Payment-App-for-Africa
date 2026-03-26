@@ -6,7 +6,7 @@ interface NotificationItemProps {
   notification: Notification;
   onMarkRead: (id: string) => void;
   onDismiss: (id: string) => void;
-  onSnooze: (id: string, minutes: number) => void;
+  onSnooze: (id: string, minutes?: number) => void;
 }
 
 const typeIcon: Record<NotificationType, React.ReactNode> = {

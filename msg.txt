@@ -1,0 +1,6 @@
+fix: resolve TS diagnostics in notification system components
+
+- Add @types/react, @types/react-dom, @types/node to devDependencies
+- Add tsconfig.json for TypeScript support
+- Remove unused Trash2 import from NotificationCenter
+- Fix snooze prop type to use optional minutes parameter
