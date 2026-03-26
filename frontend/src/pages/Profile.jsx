@@ -66,6 +66,8 @@ export default function Profile() {
     } catch {
       toast.error('Failed to delete contact');
     }
+  };
+
   const changeLanguage = (code) => {
     i18n.changeLanguage(code);
     localStorage.setItem('afripay_lang', code);

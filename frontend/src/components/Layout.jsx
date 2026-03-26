@@ -4,6 +4,7 @@ import { LayoutDashboard, Send, Download, Clock, User, LogOut, Webhook, Sun, Moo
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { NotificationCenter } from './notifications/NotificationCenter';
+import { usePWA } from '../hooks/usePWA';
 
 const navItems = [
   { to: '/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
@@ -20,6 +21,7 @@ export default function Layout() {
   const { logout } = useAuth();
   const navigate = useNavigate();
   const { theme, toggleTheme } = useTheme();
+  const { isOnline, swStatus } = usePWA();
 
   const handleLogout = () => { logout(); navigate('/'); };
 
@@ -28,6 +30,11 @@ export default function Layout() {
       {isTestnet && (
         <div className="bg-yellow-400 text-yellow-900 text-center text-xs font-semibold py-1">
           ⚠️ TESTNET — Do not use real funds
+        </div>
+      )}
+      {!isOnline && (
+        <div className="bg-orange-500 text-white text-center text-xs font-semibold py-1">
+          📡 You're offline — some features may be unavailable
         </div>
       )}
       {/* Top bar */}

@@ -17,6 +17,7 @@ import NotificationHistory from "./pages/NotificationHistory";
 import Layout from "./components/Layout";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ToastContainer } from "./components/notifications/Toast";
+import { InstallPrompt } from "./components/mobile/InstallPrompt";
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -42,6 +43,7 @@ export default function App() {
         <ThemeProvider>
           <BrowserRouter>
             <ToastContainer />
+            <InstallPrompt />
             <Routes>
               <Route path="/" element={<PublicRoute><Welcome /></PublicRoute>} />
               <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />

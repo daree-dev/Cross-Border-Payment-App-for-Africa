@@ -32,9 +32,7 @@ export default function TransactionHistory() {
       })
       .catch(() => {})
       .finally(() => setLoading(false));
-  };
-
-  useEffect(() => { fetchTransactions(); }, []);
+  }, []);
 
   const loadMore = () => {
     const nextPage = page + 1;

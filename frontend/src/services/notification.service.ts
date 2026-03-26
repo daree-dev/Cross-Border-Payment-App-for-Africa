@@ -59,10 +59,10 @@ function persist() {
 }
 
 export const notificationService = {
-  subscribe(fn: Listener) {
+  subscribe(fn: Listener): () => void {
     listeners.add(fn);
     fn([...notifications]);
-    return () => listeners.delete(fn);
+    return () => { listeners.delete(fn); };
   },
 
   add(n: Omit<Notification, 'id' | 'read' | 'timestamp'>) {

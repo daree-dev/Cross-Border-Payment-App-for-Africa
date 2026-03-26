@@ -1,6 +1,6 @@
-fix: resolve TS diagnostics in notification system components
+fix: resolve frontend build failures blocking CI
 
-- Add @types/react, @types/react-dom, @types/node to devDependencies
-- Add tsconfig.json for TypeScript support
-- Remove unused Trash2 import from NotificationCenter
-- Fix snooze prop type to use optional minutes parameter
+- Fix broken JSON in en.json (stray closing brace in auth section)
+- Fix useEffect return type in notification.service.ts (subscribe returns () => void)
+- Add typescript ^4.9.5 to devDependencies (required by react-scripts with tsconfig)
+- Update package-lock.json with @types/* and typescript entries
